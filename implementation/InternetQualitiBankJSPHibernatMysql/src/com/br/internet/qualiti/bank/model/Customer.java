@@ -1,11 +1,19 @@
 package com.br.internet.qualiti.bank.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 
 @Entity
@@ -17,11 +25,17 @@ public class Customer {
 	@Column(name="id")
 	protected int id;
 	
+	@NotBlank(message = "Nome deve ser informado")
+	@Pattern(regexp = "[^0-9]*[^\\P{L}]*", message = "Nome contém caracteres inválidos")
 	@Column(name="name")
 	protected String name;
 	
 	@Column(name="email")
 	protected String email;
+	
+	
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	private List<Account> accounts;
 	
 	public Customer() {
 	}
@@ -57,6 +71,14 @@ public class Customer {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public List<Account> getAccounts() {
+		return accounts;
+	}
+	
+	public void setAccounts(List<Account> accounts) {
+		this.accounts = accounts;
 	}
 	
 }

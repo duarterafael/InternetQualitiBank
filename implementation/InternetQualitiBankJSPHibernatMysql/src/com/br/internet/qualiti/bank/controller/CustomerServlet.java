@@ -2,6 +2,7 @@ package com.br.internet.qualiti.bank.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.br.internet.qualiti.bank.dao.CustomerDao;
+import com.br.internet.qualiti.bank.model.Account;
 import com.br.internet.qualiti.bank.model.Customer;
 
 @WebServlet("/")
@@ -87,6 +89,7 @@ public class CustomerServlet extends HttpServlet {
 		String name = request.getParameter("name");
 		String email = request.getParameter("email");
 		Customer newCustomer = new Customer(name, email);
+		
 		customerDao.save(newCustomer);
 		response.sendRedirect("list");
 	}
