@@ -22,7 +22,7 @@ public class HibernateUtil {
 				// Hibernate settings equivalent to hibernate.cfg.xml's properties
 				Properties settings = new Properties();
 				settings.put(Environment.DRIVER, "com.mysql.jdbc.Driver");
-				settings.put(Environment.URL, "jdbc:mysql://localhost:3306/internetQualitiBank?useSSL=false");
+				settings.put(Environment.URL, "jdbc:mysql://localhost:3306/internetQualitiBank?createDatabaseIfNotExist=true&useSSL=false");
 				settings.put(Environment.USER, "root");
 				settings.put(Environment.PASS, "root");
 				settings.put(Environment.DIALECT, "org.hibernate.dialect.MySQL5Dialect");
