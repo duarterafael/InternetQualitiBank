@@ -2,7 +2,6 @@ package com.br.internet.qualiti.bank.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -13,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.br.internet.qualiti.bank.dao.CustomerDao;
-import com.br.internet.qualiti.bank.model.Account;
 import com.br.internet.qualiti.bank.model.Customer;
 
-@WebServlet("/")
+@WebServlet("/customer/*")
 public class CustomerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CustomerDao customerDao;

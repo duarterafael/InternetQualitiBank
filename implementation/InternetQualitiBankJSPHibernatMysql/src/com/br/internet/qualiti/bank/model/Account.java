@@ -2,6 +2,7 @@ package com.br.internet.qualiti.bank.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,7 +27,7 @@ public class Account {
 	@Column(name = "balance")
 	private Double balance;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER, optional = false)
 	@JoinColumn(name="customer_id")
 	private Customer customer;
 
