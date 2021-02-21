@@ -9,27 +9,24 @@
 	<center>
 		<h1>Internet Qualiti Bank</h1>
         <h2>
-        	<a href="new">Add New customer</a>
-        	&nbsp;&nbsp;&nbsp;
-        	<a href="list">List customers</a>
-        	
+        	<a href="${pageContext.request.contextPath}/customer?action=list">Listar clientes</a>
         </h2>
 	</center>
     <div align="center">
 		<c:if test="${customer != null}">
-			<form action="update" method="post">
+			<form action="${pageContext.request.contextPath}/customer?action=update" method="post">
         </c:if>
         <c:if test="${customer == null}">
-			<form action="insert" method="post">
+			<form action="${pageContext.request.contextPath}/customer?action=insert" method="post">
         </c:if>
         <table border="1" cellpadding="5">
             <caption>
             	<h2>
             		<c:if test="${customer != null}">
-            			Edit
+            			Atualizar cliente
             		</c:if>
             		<c:if test="${customer == null}">
-            			Add New customer
+            			Adcionar cliente
             		</c:if>
             	</h2>
             </caption>
@@ -54,7 +51,12 @@
             </tr>
             <tr>
             	<td colspan="2" align="center">
-            		<input type="submit" value="Save" />
+            	<c:if test="${customer != null}">
+							<input type="submit" value="Atualizar" />
+		        </c:if>
+		        <c:if test="${customer == null}">
+							<input type="submit" value="Salvar" />
+		        </c:if>
             	</td>
             </tr>
         </table>

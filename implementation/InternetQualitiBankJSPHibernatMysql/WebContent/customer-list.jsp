@@ -10,10 +10,8 @@
 	<center>
 		<h1>Internet Qualiti Bank</h1>
         <h2>
-        	<a href="new">Add New Customer</a>
+        	<a href="${pageContext.request.contextPath}/customer?action=new">Novo cliente</a>
         	&nbsp;&nbsp;&nbsp;
-        	<a href="list">List All Customer</a>
-        	
         </h2>
 	</center>
     <div align="center">
@@ -30,9 +28,11 @@
                     <td><c:out value="${customer.name}" /></td>
                     <td><c:out value="${customer.email}" /></td>
                     <td>
-                    <a href="edit?id=<c:out value='${customer.id}'/>">Edit</a>
+                    <a href="${pageContext.request.contextPath}/customer?action=edit&id=<c:out value='${customer.id}'/>">Atualizar</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                   <a href="delete?id=<c:out value='${customer.id}'/>">Delete</a>
+                   	<a href="${pageContext.request.contextPath}/customer?action=delete&id=<c:out value='${customer.id}'/>">Deletar</a>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                   	<a href="${pageContext.request.contextPath}/account?action=list&customer_id=<c:out value='${customer.id}'/>">Listar contas</a>
                     	                	
                     </td>
                 </tr>
