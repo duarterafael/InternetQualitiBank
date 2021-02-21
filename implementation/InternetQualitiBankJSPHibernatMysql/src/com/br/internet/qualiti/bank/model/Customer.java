@@ -26,7 +26,6 @@ public class Customer {
 	protected int id;
 	
 	@NotBlank(message = "Nome deve ser informado")
-	@Pattern(regexp = "[^0-9\\P{L}]*", message = "Nome contém caracteres inválidos")
 	@Column(name="name")
 	protected String name;
 	
