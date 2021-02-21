@@ -10,29 +10,31 @@
 	<center>
 		<h1>Internet Qualiti Bank</h1>
         <h2>
-        	<a href="${pageContext.request.contextPath}/customer?action=new">Novo cliente</a>
+        	<a href="${pageContext.request.contextPath}/account?action=new&customer_id=<c:out value='${customer.id}'/>">Nova conta</a>
         	&nbsp;&nbsp;&nbsp;
+        	<a href="${pageContext.request.contextPath}/customer?action=list">Listar clientes</a>
         </h2>
 	</center>
     <div align="center">
+    	<h2>
+        	Cliente: <c:out value='${customer.name}'/>
+        </h2>
         <table class="table table-striped table-bordered" style="width:100%">
             <tr class="thead-dark">
                 <th scope="col">ID</th>
-                <th scope="col">Nome</th>
-                <th scope="col">Email</th>
+                <th scope="col">Numero</th>
+                <th scope="col">Saldo</th>
                 <th scope="col">Ações</th>
             </tr>
-            <c:forEach var="customer" items="${customers}">
+            <c:forEach var="account" items="${accounts}">
                 <tr>
-                    <td scope="row"><c:out value="${customer.id}" /></td>
-                    <td><c:out value="${customer.name}" /></td>
-                    <td><c:out value="${customer.email}" /></td>
+                    <td scope="row"><c:out value="${account.id}" /></td>
+                    <td><c:out value="${account.number}" /></td>
+                    <td><c:out value="${account.balance}" /></td>
                     <td>
-                    <a href="${pageContext.request.contextPath}/customer?action=edit&id=<c:out value='${customer.id}'/>">Atualizar</a>
+                    <a href="${pageContext.request.contextPath}/account?action=edit&customer_id=<c:out value='${customer.id}'/>&id=<c:out value='${account.id}'/>">Atualizar</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                   	<a href="${pageContext.request.contextPath}/customer?action=delete&id=<c:out value='${customer.id}'/>">Deletar</a>
-                    &nbsp;&nbsp;&nbsp;&nbsp;
-                   	<a href="${pageContext.request.contextPath}/account?action=list&customer_id=<c:out value='${customer.id}'/>">Listar contas</a>
+                   	<a href="${pageContext.request.contextPath}/account?action=delete&customer_id=<c:out value='${customer.id}'/>&id=<c:out value='${account.id}'/>">Deletar</a>
                     	                	
                     </td>
                 </tr>

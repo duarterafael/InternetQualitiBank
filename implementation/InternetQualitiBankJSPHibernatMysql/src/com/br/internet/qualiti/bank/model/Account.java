@@ -19,7 +19,7 @@ public class Account {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id")
-	private Long id;
+	private int id;
 	
 	@Column(name = "number")
 	private String number;
@@ -39,9 +39,9 @@ public class Account {
 		this.number = number;
 		this.balance = balance;
 		this.customer = customer;
-	}
 	
-	public Account(Long id, String number, Double balance, Customer customer) {
+	}
+	public Account(int id, String number, Double balance, Customer customer) {
 		super();
 		this.id = id;
 		this.number = number;
@@ -53,7 +53,7 @@ public class Account {
 		return serialVersionUID;
 	}
 
-	public Long getId() {
+	public int getId() {
 		return id;
 	}
 
@@ -75,6 +75,14 @@ public class Account {
 	
 	public void debit(Double value){
 		this.balance -= value;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
 	}
 	
 }

@@ -21,8 +21,10 @@ import com.br.internet.qualiti.bank.util.Constants;
 public class AccountServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AccountDao accountDao;
+	private CustomerDao customerDao;
 	
 	public void init() {
+		customerDao = new CustomerDao();
 		accountDao = new AccountDao();
 	}
 
@@ -38,17 +40,16 @@ public class AccountServlet extends HttpServlet {
 		try {
 			if(action == null || action.isEmpty()) {
 				list(request, response);
-//			}
-//			else if (action.equalsIgnoreCase(Constants.NEW_ACTION)) {
-//				showNewForm(request, response);
-//			} else if (action.equalsIgnoreCase(Constants.INSERT_ACTION)) {
-//				insert(request, response);
-//			} else if (action.equalsIgnoreCase(Constants.DELETE_ACTION)) {
-//				delete(request, response);
-//			} else if (action.equalsIgnoreCase(Constants.EDIT_ACTION)) {
-//				showEditForm(request, response);
-//			} else if (action.equalsIgnoreCase(Constants.UPDATE_ACTION)) {
-//				update(request, response);
+			} else if (action.equalsIgnoreCase(Constants.NEW_ACTION)) {
+				showNewForm(request, response);
+			} else if (action.equalsIgnoreCase(Constants.INSERT_ACTION)) {
+				insert(request, response);
+			} else if (action.equalsIgnoreCase(Constants.DELETE_ACTION)) {
+				delete(request, response);
+			} else if (action.equalsIgnoreCase(Constants.EDIT_ACTION)) {
+				showEditForm(request, response);
+			} else if (action.equalsIgnoreCase(Constants.UPDATE_ACTION)) {
+				update(request, response);
 			} else {
 				list(request, response);	
 			}
@@ -61,53 +62,76 @@ public class AccountServlet extends HttpServlet {
 	private void list(HttpServletRequest request, HttpServletResponse response)
 			throws SQLException, IOException, ServletException {
 		int customerId = Integer.parseInt(request.getParameter(Constants.CUSTOMER_ID_COL_NAME));
+		Customer customer = customerDao.get(customerId);
+		
 		List<Account> accounts = accountDao.getByCustomerId(customerId);
 		request.setAttribute("accounts", accounts);
+		request.setAttribute("customer", customer);
+		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("account-list.jsp");
 		dispatcher.forward(request, response);
 	}
 
-//	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
-//			throws ServletException, IOException {
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("customer-form.jsp");
-//		dispatcher.forward(request, response);
-//	}
-//
-//	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-//			throws SQLException, ServletException, IOException {
-//		int id = Integer.parseInt(request.getParameter(Constants.ID_COL_NAME));
-//		Customer selectedCustomer = customerDao.get(id);
-//		RequestDispatcher dispatcher = request.getRequestDispatcher("customer-form.jsp");
-//		request.setAttribute("customer", selectedCustomer);
-//		dispatcher.forward(request, response);
-//
-//	}
-//
-//	private void insert(HttpServletRequest request, HttpServletResponse response) 
-//			throws SQLException, IOException {
-//		String name = request.getParameter(Constants.NAME_COL_NAME);
-//		String email = request.getParameter(Constants.EMAIL_COL_NAME);
-//		Customer newCustomer = new Customer(name, email);
-//		
-//		customerDao.save(newCustomer);
-//		response.sendRedirect(request.getContextPath());
-//	}
-//
-//	private void update(HttpServletRequest request, HttpServletResponse response) 
-//			throws SQLException, IOException {
-//		int id = Integer.parseInt(request.getParameter(Constants.ID_COL_NAME));
-//		String name = request.getParameter(Constants.NAME_COL_NAME);
-//		String email = request.getParameter(Constants.EMAIL_COL_NAME);
-//		
-//		Customer customer = new Customer(id, name, email);
-//		customerDao.update(customer);
-//		response.sendRedirect(request.getContextPath());
-//	}
-//
-//	private void delete(HttpServletRequest request, HttpServletResponse response) 
-//			throws SQLException, IOException {
-//		int id = Integer.parseInt(request.getParameter(Constants.ID_COL_NAME));
-//		customerDao.delete(id);
-//		response.sendRedirect(request.getContextPath());
-//	}
+	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		int customerId = Integer.parseInt(request.getParameter(Constants.CUSTOMER_ID_COL_NAME));
+		Customer customer = customerDao.get(customerId);
+		request.setAttribute("customer", customer);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("account-form.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void showEditForm(HttpServletRequest request, HttpServletResponse response)
+			throws SQLException, ServletException, IOException {
+		int customerId = Integer.parseInt(request.getParameter(Constants.CUSTOMER_ID_COL_NAME));
+		int id = Integer.parseInt(request.getParameter(Constants.ID_COL_NAME));
+		
+		Account selectAccount = accountDao.get(id);
+		Customer selectedCustomer = customerDao.get(customerId);
+		
+		request.setAttribute("customer", selectedCustomer);
+		request.setAttribute("account", selectAccount);
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("account-form.jsp");
+		dispatcher.forward(request, response);
+
+	}
+
+	private void insert(HttpServletRequest request, HttpServletResponse response) 
+			throws SQLException, IOException {
+		String number = request.getParameter(Constants.NUMBER_COL_NAME);
+		Double balance = Double.parseDouble(request.getParameter(Constants.BALANCE_COL_NAME));
+		int customerId = Integer.parseInt(request.getParameter(Constants.CUSTOMER_ID_COL_NAME));
+		
+		Customer customer = customerDao.get(customerId);
+		Account newAccount = new Account(number, balance, customer);
+		
+		accountDao.save(newAccount);
+		response.sendRedirect(request.getContextPath()+"/account?action=list&customer_id="+customerId);
+	}
+
+	private void update(HttpServletRequest request, HttpServletResponse response) 
+			throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter(Constants.ID_COL_NAME));
+		int customerId = Integer.parseInt(request.getParameter(Constants.CUSTOMER_ID_COL_NAME));
+		
+		String number = request.getParameter(Constants.NUMBER_COL_NAME);
+		Double balance = Double.parseDouble(request.getParameter(Constants.BALANCE_COL_NAME));
+		
+		Account accountInDb = accountDao.get(id);
+		
+		accountInDb.setBalance(balance);
+		accountInDb.setNumber(number);
+		accountDao.update(accountInDb);
+		response.sendRedirect(request.getContextPath()+"/account?action=list&customer_id="+customerId);
+	}
+
+	private void delete(HttpServletRequest request, HttpServletResponse response) 
+			throws SQLException, IOException {
+		int id = Integer.parseInt(request.getParameter(Constants.ID_COL_NAME));
+		int customerId = Integer.parseInt(request.getParameter(Constants.CUSTOMER_ID_COL_NAME));
+		accountDao.delete(id);
+		response.sendRedirect(request.getContextPath()+"/account?action=list&customer_id="+customerId);
+	}
 }

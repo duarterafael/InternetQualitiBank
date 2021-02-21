@@ -13,5 +13,8 @@ public class Constants {
 	public static final String EMAIL_COL_NAME = "email";
 	
 	public static final String CUSTOMER_ID_COL_NAME = "customer_id";
+	public static final String NUMBER_COL_NAME = "number";
+	public static final String BALANCE_COL_NAME = "balance";
+	
 	
 }
