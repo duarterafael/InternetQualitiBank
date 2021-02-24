@@ -21,7 +21,7 @@ public class CustomerServlet extends HttpServlet {
 	private CustomerDao customerDao;
 	
 	public void init() {
-		customerDao = new CustomerDao();
+		customerDao = CustomerDao.getInstance();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

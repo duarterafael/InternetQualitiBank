@@ -6,12 +6,23 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.br.internet.qualiti.bank.model.Account;
-import com.br.internet.qualiti.bank.model.Customer;
 import com.br.internet.qualiti.bank.util.HibernateUtil;
 
 
 public class AccountDao {
 	
+	private static AccountDao instance;
+	
+	private AccountDao() {}
+	
+	public static AccountDao getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new AccountDao();
+		}
+		return instance;
+	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Account> getByCustomerId(int customerId) {

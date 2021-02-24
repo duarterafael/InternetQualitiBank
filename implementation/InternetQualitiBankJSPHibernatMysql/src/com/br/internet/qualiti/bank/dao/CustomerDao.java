@@ -10,6 +10,19 @@ import com.br.internet.qualiti.bank.util.HibernateUtil;
 
 public class CustomerDao {
 	
+	private static CustomerDao instance;
+	
+	private CustomerDao() {}
+	
+	public static CustomerDao getInstance()
+	{
+		if(instance == null)
+		{
+			instance = new CustomerDao();
+		}
+		return instance;
+	}
+	
 	public void save(Customer customer) {
 		Transaction transaction = null;
 		try (Session session = HibernateUtil.getSessionFactory().openSession()) {

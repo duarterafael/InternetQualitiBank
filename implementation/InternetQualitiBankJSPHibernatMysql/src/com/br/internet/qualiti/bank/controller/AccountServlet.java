@@ -24,8 +24,8 @@ public class AccountServlet extends HttpServlet {
 	private CustomerDao customerDao;
 	
 	public void init() {
-		customerDao = new CustomerDao();
-		accountDao = new AccountDao();
+		customerDao = CustomerDao.getInstance();
+		accountDao = AccountDao.getInstance();
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
